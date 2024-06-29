@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/heroicons/dist/heroicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f3f4f6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 4fr; /* 1 column for navigation, 4 columns for content */
+            gap: 20px;
+        }
+
+        .header {
+            grid-column: span 2; /* Span across both columns */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .nav {
+            grid-column: 1 / 2; /* Left column */
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-right: 20px;
+            padding-right: 20px;
+            border-right: 1px solid #edf2f7;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #4a5568;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            background-color: #edf2f7;
+            color: #2b6cb0;
+        }
+
+        .nav-link svg {
+            margin-right: 4px;
+            fill: #718096;
+        }
+
+        .content {
+            grid-column: 2 / 3; /* Right column */
+            padding-left: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #edf2f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none; /* Initially hide all content cards */
+        }
+
+        .card.active {
+            display: block; /* Display content when active class is added */
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #718096;
+        }
+
+        .generate-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2b6cb0;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .generate-text {
+            margin-right: 10px;
+        }
+
+        .generate-btn {
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .generate-btn:hover {
+            background-color: #2c5282;
+        }
+
+        .feedback-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #edf2f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .feedback-form.active {
+            display: block;
+        }
+
+        .feedback-input {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 16px);
+        }
+
+        .feedback-submit {
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .feedback-submit:hover {
+            background-color: #2c5282;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2>Welcome to Admin Dashboard</h2>
+        </div>
+
+        <div class="nav">
+            <a href="#" class="nav-link" data-content="dashboardContent">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
+                        clip-rule="evenodd" />
+                </svg>
+                Dashboard
+            </a>
+            <a href="#" class="nav-link" data-content="analyticsContent">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
+                        clip-rule="evenodd" />
+                </svg>
+                Analytics
+            </a>
+            <a href="#" class="nav-link" data-content="settingsContent">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
+                        clip-rule="evenodd" />
+                </svg>
+                Settings
+            </a>
+            <a href="#" class="nav-link" data-content="feedbackForm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
+                        clip-rule="evenodd" />
+                </svg>
+                Feedback
+            </a>
+        </div>
+
+        <div class="content">
+            <div id="dashboardContent" class="card">
+                <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
+                <p>Dashboard content can be placed here.</p>
+            </div>
+
+            <div id="analyticsContent" class="card">
+                <h3 class="text-xl font-semibold mb-2">Analytics</h3>
+                <p>Analytics summary or charts can be placed here.</p>
+            </div>
+
+            <div id="settingsContent" class="card">
+                <h3 class="text-xl font-semibold mb-2">Settings</h3>
+                <p>Settings and configuration options go here.</p>
+            </div>
+
+            <div id="feedbackForm" class="feedback-form">
+                <h2>Enter Ticket Number</h2>
+                <input type="text" id="ticketNumber" class="feedback-input" placeholder="Ticket Number">
+                <button id="submitFeedback" class="feedback-submit">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="generate-box">
+        <div class="generate-text">Generate Feedback Form</div>
+        <button id="generateBtn" class="generate-btn">Generate!</button>
+    </div>
+
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function () {
+            // Replace this with your actual feedback form generation logic
+            alert('Generating Feedback Form!');
+            // Example: Redirecting to a feedback form page
+            window.location.href = 'JotForms.html';
+        });
+
+        document.querySelectorAll('.nav-link').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                var contentId = this.getAttribute('data-content');
+
+                // Hide all content sections
+                document.querySelectorAll('.card, .feedback-form').forEach(function (section) {
+                    section.classList.remove('active');
+                });
+
+                // Show the selected content section
+                document.getElementById(contentId).classList.add('active');
+            });
+        });
+
+        document.getElementById('submitFeedback').addEventListener('click', function () {
+            var ticketNumber = document.getElementById('ticketNumber').value;
+            alert('Submitting Feedback for Ticket Number: ' + ticketNumber);
+            // Reset input after submission if needed
+            document.getElementById('ticketNumber').value = '';
+        });
+    </script>
+
+</body>
+
+</html>
