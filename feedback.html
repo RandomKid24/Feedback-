@@ -23,43 +23,54 @@
             display: none;
         }
         .custom-radio label {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        border-radius: 50%;
-        border: 2px solid #1a202c;
-        color: #1a202c;
-        text-align: center;
-        cursor: pointer;
-        margin-right: 10px;
-        transition: background-color 0.3s, color 0.3s;
-        position: relative;
-        overflow: hidden;
-        }
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    border: 2px solid #1a202c;
+    color: #000000; /* Adjust text color as needed */
+    text-align: center;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease; /* Transition for all properties */
+}
 
-        .custom-radio label::before {
-        content: '';
-        position: absolute;
-        top: -10%;
-        left: 50%;
-        width: 100%;
-        height: 120%;
-        background-color: #1eb0e0;
-        transform:  skewX(-25deg);
-        transform-origin: top left;
-        z-index: -1;
-        }
+.custom-radio label::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 100%;
+    height: 120%;
+    background-color: #1eb0e0;
+    transform: skewX(-60deg);
+    transform-origin: top left;
+    z-index: -1;
+    transition: all 0.3s ease; /* Transition for all properties */
+}
 
-         .custom-radio input[type="radio"]:checked + label {
-            color: white;
-        }
+.custom-radio input[type="radio"]:checked + label {
+    color: white; /* Color when selected */
+}
 
-        .custom-radio input[type="radio"]:checked + label::before {
-        left: 0;
-        width: 100%;
-        transform: none;
-        }
+.custom-radio input[type="radio"]:checked + label::before {
+    left: 0;
+    width: 100%;
+    transform: none;
+}
+
+.custom-radio label:hover {
+    background-color: #1eb0e0; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+}
+
+.custom-radio label:hover::before {
+    transform: skewX(-60deg) scale(1.1); /* Scale up the skew on hover */
+}
+
 
         
         .form-group {
@@ -472,11 +483,13 @@
                         if (circle !== checkedCircle) {
                             circle.classList.add('disabled');
                         }
+                        
                     });
                 });
             });
         });
     </script>
+    
 
 
 </body>
