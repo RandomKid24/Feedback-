@@ -1,276 +1,633 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Feedback</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/heroicons/dist/heroicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f3f4f6;
-            padding: 20px;
+         body {
+        padding-top: 80px;
+        font-family: 'Poppins', sans-serif;
+        background-image: url('https://aureolepharmatech.com/wp-content/uploads/2023/08/bg-1.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
         }
+        .rating-label {
+            margin: 0 10px;
+        }
+        .custom-radio input[type="radio"] {
+            display: none;
+        }
+        .custom-radio label {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    border: 2px solid #1a202c;
+    color: #000000; /* Adjust text color as needed */
+    text-align: center;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease; /* Transition for all properties */
+}
 
-        .container {
+.custom-radio label::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 100%;
+    height: 120%;
+    background-color: #1eb0e0;
+    transform: skewX(-60deg);
+    transform-origin: top left;
+    z-index: -1;
+    transition: all 0.3s ease; /* Transition for all properties */
+}
+
+.custom-radio input[type="radio"]:checked + label {
+    color: white; /* Color when selected */
+}
+
+.custom-radio input[type="radio"]:checked + label::before {
+    left: 0;
+    width: 100%;
+    transform: none;
+}
+
+.custom-radio label:hover {
+    background-color: #1eb0e0; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+}
+
+.custom-radio label:hover::before {
+    transform: skewX(-60deg) scale(1.1); /* Scale up the skew on hover */
+}
+
+
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        .form-group label {
+            margin-bottom: 10px;
+            display: block;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-group .custom-radio {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .form-group .custom-radio label {
+            margin-bottom: 20px;
+        }
+        .form-group textarea,
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"] {
+            margin-top: 10px;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+        .header {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgb(248, 248, 248);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+        .header {
+            top: 0;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 4fr; /* 1 column for navigation, 4 columns for content */
-            gap: 20px;
+            padding: 0 20px;
         }
-
-        .header {
-            grid-column: span 2; /* Span across both columns */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #edf2f7;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+        .footer {
+            bottom: 0;
+            background-color: #1e91b9;
+            color: white;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
         }
-
-        .header h2 {
+        .container {
+            margin-top: 20px;
+            
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+       
+        .form-title {
             font-size: 24px;
             font-weight: 600;
-            color: #4a5568;
-        }
-
-        .nav {
-            grid-column: 1 / 2; /* Left column */
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-right: 20px;
-            padding-right: 20px;
-            border-right: 1px solid #edf2f7;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            color: #4a5568;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
-            padding: 12px;
-            border-radius: 5px;
-        }
-
-        .nav-link:hover {
-            background-color: #edf2f7;
-            color: #2b6cb0;
-        }
-
-        .nav-link svg {
-            margin-right: 4px;
-            fill: #718096;
-        }
-
-        .content {
-            grid-column: 2 / 3; /* Right column */
-            padding-left: 20px;
-        }
-
-        .card {
-            background-color: #ffffff;
-            padding: 20px;
-            border: 1px solid #edf2f7;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            display: none; /* Initially hide all content cards */
-        }
-
-        .card.active {
-            display: block; /* Display content when active class is added */
-        }
-
-        .card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #4a5568;
             margin-bottom: 10px;
         }
-
-        .card p {
+        .form-description {
             font-size: 16px;
-            color: #718096;
+            color: #4a5568;
+            margin-bottom: 20px;
         }
-
-        .generate-box {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #2b6cb0;
-            color: #fff;
+        .form-group i {
+            color: #3b82f6;
+        }
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .form-group textarea,
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"] {
+            font-size: 14px;
+        }
+        .form-group button {
+            background-color: #3b82f6;
+            color: white;
             padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-        }
-
-        .generate-text {
-            margin-right: 10px;
-        }
-
-        .generate-btn {
-            background-color: #3182ce;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
             border-radius: 5px;
-            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
-
-        .generate-btn:hover {
-            background-color: #2c5282;
+        .form-group button:hover {
+            background-color: #2563eb;
         }
-
-        .feedback-form {
-            background-color: #ffffff;
-            padding: 20px;
-            border: 1px solid #edf2f7;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: none;
-            margin-bottom: 20px;
+        .link {
+            color: white;
+            margin: 0 10px;
+            transition: color 0.3s;
         }
-
-        .feedback-form.active {
-            display: block;
+        .link:hover {
+            color: #cbd5e0;
         }
-
-        .feedback-input {
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: calc(100% - 16px);
+        .rating-description {
+            font-size: 12px;
+            color: #4a5568;
+            text-align: center;
+            margin-top: -10px;
         }
-
-        .feedback-submit {
-            background-color: #3182ce;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        .rating-circle.disabled label {
+            background-color: #d1d5db;
+            color: #6b7280;
+            cursor: default; /* Prevent cursor change */
         }
+        .popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    padding: 24px;
+    border-radius: 12px;
+    z-index: 1000;
+    max-width: 90%;
+    width: 400px;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0); /* Gradient background */
+    border: 1px solid #ccc; /* Light border */
+}
 
-        .feedback-submit:hover {
-            background-color: #2c5282;
-        }
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    backdrop-filter: blur(8px); /* Blurred background effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    padding: 24px;
+    border-radius: 12px;
+    z-index: 1000;
+    max-width: 90%;
+    width: 400px;
+    border: 1px solid #ccc; /* Light border */
+}
+
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.popup-close:hover {
+    color: #333;
+}
+
+.popup-content {
+    padding: 10px;
+    line-height: 1.6;
+    color: #333; /* Darker text color for contrast */
+}
+
+.popup.visible {
+    display: block;
+}
+
+
     </style>
 </head>
+<body class="bg-gray-100">
 
-<body>
-
-    <div class="container">
-        <div class="header">
-            <h2>Welcome to Admin Dashboard</h2>
-        </div>
-
-        <div class="nav">
-            <a href="#" class="nav-link" data-content="dashboardContent">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
-                        clip-rule="evenodd" />
-                </svg>
-                Dashboard
-            </a>
-            <a href="#" class="nav-link" data-content="analyticsContent">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
-                        clip-rule="evenodd" />
-                </svg>
-                Analytics
-            </a>
-            <a href="#" class="nav-link" data-content="settingsContent">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
-                        clip-rule="evenodd" />
-                </svg>
-                Settings
-            </a>
-            <a href="#" class="nav-link" data-content="feedbackForm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM4.93 4.93a6 6 0 1 1 8.485 8.486 2 2 0 1 1-2.828-2.828 2 2 0 0 1-2.828 0 2 2 0 1 1-2.828 2.828 6 6 0 0 1 0-8.486z"
-                        clip-rule="evenodd" />
-                </svg>
-                Feedback
+    <!-- Header -->
+<div class="header  p-4 shadow-xl backdrop-blur-sm">
+    <div class="header-content flex items-center justify-between ">
+        <div class="logo">
+            <a href="https://aureolepharmatech.com">
+                <img class="w-2/4" src="https://aureolepharmatech.com/wp-content/uploads/elementor/thumbs/WhatsApp_Image_2023-09-25_at_1.26.49_PM-removebg-preview-qea802enzp4yro7uvfmmpmlyj78wgtqissn1rmfary.png" alt="Aureole Pharmatech Logo">
             </a>
         </div>
-
-        <div class="content">
-            <div id="dashboardContent" class="card">
-                <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
-                <p>Dashboard content can be placed here.</p>
-            </div>
-
-            <div id="analyticsContent" class="card">
-                <h3 class="text-xl font-semibold mb-2">Analytics</h3>
-                <p>Analytics summary or charts can be placed here.</p>
-            </div>
-
-            <div id="settingsContent" class="card">
-                <h3 class="text-xl font-semibold mb-2">Settings</h3>
-                <p>Settings and configuration options go here.</p>
-            </div>
-
-            <div id="feedbackForm" class="feedback-form">
-                <h2>Enter Ticket Number</h2>
-                <input type="text" id="ticketNumber" class="feedback-input" placeholder="Ticket Number">
-                <button id="submitFeedback" class="feedback-submit">Submit</button>
-            </div>
+        <h1 class="text-blue-400 text-2xl font-bold">Feedback</h1>
+        <div >
+            <a href="https://aureolepharmatech.com/about-us/" class="text-blue-500 mx-2 ">About Us</a>
+            <a href="https://aureolepharmatech.com/contact-us/" class=" text-blue-500 mx-2">Contact</a>
         </div>
     </div>
+</div>
 
-    <div class="generate-box">
-        <div class="generate-text">Generate Feedback Form</div>
-        <button id="generateBtn" class="generate-btn">Generate!</button>
+
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto p-5 container md:mb-24 mb-24">
+        <h2 class="form-title">Feedback</h2>
+        <p class="form-description">Dear Valued Customer,<br>
+        Thank you for choosing Aureole Pharma Pvt Ltd. Your feedback is important to us as we
+        continually strive to enhance our products and services Please take a moment to share your
+        thoughts by completing this brief feedback form. Your input is invaluable in helping us meet andexceed your expectations.</p>
+        <form action="#" method="POST">
+
+            <!-- Problem Resolution and Time Taken -->
+            <div class="form-group">
+                <label><i class="fas fa-clock mr-2"></i>Problem resolution and Time Taken</label>
+                <div class="custom-radio">
+                    <!-- Radio buttons for problem resolution and time taken -->
+                    <div class="rating-circle">
+                        <input type="radio" id="problemResolution1" name="problemResolution" value="1" required>
+                        <label for="problemResolution1">1</label>
+                        <div class="rating-description">Poor</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="problemResolution2" name="problemResolution" value="2" required>
+                        <label for="problemResolution2">2</label>
+                        <div class="rating-description">Fair</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="problemResolution3" name="problemResolution" value="3" required>
+                        <label for="problemResolution3">3</label>
+                        <div class="rating-description">Neutral</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="problemResolution4" name="problemResolution" value="4" required>
+                        <label for="problemResolution4">4</label>
+                        <div class="rating-description">Liked</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="problemResolution5" name="problemResolution" value="5" required>
+                        <label for="problemResolution5">5</label>
+                        <div class="rating-description">Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timely Update and Information from Aureole Team -->
+            <div class="form-group">
+                <label><i class="fas fa-info-circle mr-2"></i>Timely update and information from Aureole Team</label>
+                <div class="custom-radio">
+                    <!-- Radio buttons for timely update and information from Aureole Team -->
+                    <div class="rating-circle">
+                        <input type="radio" id="timelyUpdate1" name="timelyUpdate" value="1" required>
+                        <label for="timelyUpdate1">1</label>
+                        <div class="rating-description">Poor</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="timelyUpdate2" name="timelyUpdate" value="2" required>
+                        <label for="timelyUpdate2">2</label>
+                        <div class="rating-description">Fair</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="timelyUpdate3" name="timelyUpdate" value="3" required>
+                        <label for="timelyUpdate3">3</label>
+                        <div class="rating-description">Neutral</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="timelyUpdate4" name="timelyUpdate" value="4" required>
+                        <label for="timelyUpdate4">4</label>
+                        <div class="rating-description">Liked</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="timelyUpdate5" name="timelyUpdate" value="5" required>
+                        <label for="timelyUpdate5">5</label>
+                        <div class="rating-description">Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Skill of Service Engineer/ITSS Engineer -->
+            <div class="form-group">
+                <label><i class="fas fa-tools mr-2"></i>Technical Skill of Service Engineer/ITSS Engineer</label>
+                <div class="custom-radio">
+                    <!-- Radio buttons for technical skill of Service Engineer/ITSS Engineer -->
+                    <div class="rating-circle">
+                        <input type="radio" id="technicalSkill1" name="technicalSkill" value="1" required>
+                        <label for="technicalSkill1">1</label>
+                        <div class="rating-description">Poor</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="technicalSkill2" name="technicalSkill" value="2" required>
+                        <label for="technicalSkill2">2</label>
+                        <div class="rating-description">Fair</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="technicalSkill3" name="technicalSkill" value="3" required>
+                        <label for="technicalSkill3">3</label>
+                        <div class="rating-description">Neutral</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="technicalSkill4" name="technicalSkill" value="4" required>
+                        <label for="technicalSkill4">4</label>
+                        <div class="rating-description">Liked</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="technicalSkill5" name="technicalSkill" value="5" required>
+                        <label for="technicalSkill5">5</label>
+                        <div class="rating-description">Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Communication, Attire, and Overall Behavior of Service Engineer/ITSS Engineer -->
+            <div class="form-group">
+                <label><i class="fas fa-user-tie mr-2"></i>Communication, Attire, and overall behavior of Service Engineer/ITSS Engineer</label>
+                <div class="custom-radio">
+                    <!-- Radio buttons for communication, attire, and overall behavior of Service Engineer/ITSS Engineer -->
+                    <div class="rating-circle">
+                        <input type="radio" id="communicationBehavior1" name="communicationBehavior" value="1" required>
+                        <label for="communicationBehavior1">1</label>
+                        <div class="rating-description">Poor</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="communicationBehavior2" name="communicationBehavior" value="2" required>
+                        <label for="communicationBehavior2">2</label>
+                        <div class="rating-description">Fair</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="communicationBehavior3" name="communicationBehavior" value="3" required>
+                        <label for="communicationBehavior3">3</label>
+                        <div class="rating-description">Neutral</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="communicationBehavior4" name="communicationBehavior" value="4" required>
+                        <label for="communicationBehavior4">4</label>
+                        <div class="rating-description">Liked</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="communicationBehavior5" name="communicationBehavior" value="5" required>
+                        <label for="communicationBehavior5">5</label>
+                        <div class="rating-description">Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Response and Communication from Backend Team -->
+            <div class="form-group">
+                <label><i class="fas fa-headset mr-2"></i>Response and communication from Backend Team (if applicable)</label>
+                <div class="custom-radio">
+                    <!-- Radio buttons for response and communication from Backend Team -->
+                    <div class="rating-circle">
+                        <input type="radio" id="responseBackendTeam1" name="responseBackendTeam" value="1" required>
+                        <label for="responseBackendTeam1">1</label>
+                        <div class="rating-description">Poor</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="responseBackendTeam2" name="responseBackendTeam" value="2" required>
+                        <label for="responseBackendTeam2">2</label>
+                        <div class="rating-description">Fair</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="responseBackendTeam3" name="responseBackendTeam" value="3" required>
+                        <label for="responseBackendTeam3">3</label>
+                        <div class="rating-description">Neutral</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="responseBackendTeam4" name="responseBackendTeam" value="4" required>
+                        <label for="responseBackendTeam4">4</label>
+                        <div class="rating-description">Liked</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="responseBackendTeam5" name="responseBackendTeam" value="5" required>
+                        <label for="responseBackendTeam5">5</label>
+                        <div class="rating-description"> Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overall Experience for the Service -->
+            <div class="form-group">
+                <label><i class="fas fa-star mr-2"></i>Overall Experience for the service</label>
+                <div class="custom-radio">
+                    <!-- Radio buttons for overall experience for the service -->
+                    <div class="rating-circle">
+                        <input type="radio" id="overallExperience1" name="overallExperience" value="1" required>
+                        <label for="overallExperience1">1</label>
+                        <div class="rating-description">Poor</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="overallExperience2" name="overallExperience" value="2" required>
+                        <label for="overallExperience2">2</label>
+                        <div class="rating-description">Fair</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="overallExperience3" name="overallExperience" value="3" required>
+                        <label for="overallExperience3">3</label>
+                        <div class="rating-description">Neutral</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="overallExperience4" name="overallExperience" value="4" required>
+                        <label for="overallExperience4">4</label>
+                        <div class="rating-description">Liked</div>
+                    </div>
+                    <div class="rating-circle">
+                        <input type="radio" id="overallExperience5" name="overallExperience" value="5" required>
+                        <label for="overallExperience5">5</label>
+                        <div class="rating-description"> Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback and Suggestions -->
+            <div class="form-group">
+                <label for="feedback"><i class="fas fa-comments mr-2"></i>Feedback and Suggestions</label>
+                <textarea id="feedback" name="feedback" rows="4" placeholder="Please provide your feedback and suggestions here..."></textarea>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user mr-2"></i>Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone"><i class="fas fa-phone-alt mr-2"></i>Phone</label>
+                <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+            </div>
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope mr-2"></i>Email</label>
+                <input type="email" id="email" name="email" placeholder="Your Email Address" required>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit">Submit Feedback</button>
+            </div>
+            <!-- Popup Confirmation Message -->
+            <div class="popup" id="confirmationMessage">
+                <span class="popup-close" onclick="closePopup()">&times;</span>
+                <div class="popup-content">
+                    <p>Thank you for your feedback!</p>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <script>
-        document.getElementById('generateBtn').addEventListener('click', function () {
-            // Replace this with your actual feedback form generation logic
-            alert('Generating Feedback Form!');
-            // Example: Redirecting to a feedback form page
-            window.location.href = 'JotForms.html';
-        });
+    <!-- Footer -->
+    <div class="footer bg-gray-800 text-lg md:fixed w-full">
+        <div class="mx-auto flex flex-col lg:flex-row justify-center lg:space-x-4 py-2">
+            <p class="text-white">
+                <i class="fas fa-envelope text-blue-400"></i>
+                <a href="mailto:enquiry@aureolepharmatech.com" class="link text-blue-400">enquiry@aureolepharmatech.com</a>
+            </p>
+            <p class="text-white">
+                <i class="fas fa-globe text-blue-400"></i>
+                <a href="https://aureolepharmatech.com/" class="link text-blue-400">aureolepharmatech.com</a>
+            </p>
+            <p class="text-white">
+                <i class="fas fa-phone text-blue-400"></i>
+                <a href="tel:+918600522240" class="link text-blue-400">+91 86005 22240</a>
+            </p>
+        </div><hr>
+        <p class="text-white text-xl " >We Are There With You </p>
+    </div>
 
-        document.querySelectorAll('.nav-link').forEach(function (link) {
-            link.addEventListener('click', function (event) {
+     <!-- JavaScript scriptrs-->
+      <!-- JavaScript to handle gray-out behavior -->
+
+      <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the form and submit button
+            const form = document.querySelector('form');
+            const submitBtn = document.getElementById('submitBtn');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+    
+            // Add event listener for form submission
+            form.addEventListener('submit', function (event) {
+                // Prevent default form submission
                 event.preventDefault();
-                var contentId = this.getAttribute('data-content');
-
-                // Hide all content sections
-                document.querySelectorAll('.card, .feedback-form').forEach(function (section) {
-                    section.classList.remove('active');
-                });
-
-                // Show the selected content section
-                document.getElementById(contentId).classList.add('active');
+    
+                // You can perform form validation here if needed
+    
+                // Display confirmation message
+                confirmationMessage.classList.add('visible');
+                confirmationMessage.scrollIntoView({ behavior: 'smooth' });
+    
+                // Optional: Reset form fields after submission
+                form.reset();
+    
+                // Disable form fields to prevent further editing
+                disableForm();
+    
+                // Hide confirmation message after 3 seconds
+                setTimeout(function () {
+                    confirmationMessage.classList.remove('visible');
+                }, 3000); // 3000 milliseconds = 3 seconds
             });
+    
+            // Function to disable form fields after submission
+            function disableForm() {
+                // Disable all form elements
+                const formElements = form.elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    formElements[i].disabled = true;
+                }
+    
+                // Disable submit button separately (in case it's not in form.elements)
+                submitBtn.disabled = true;
+            }
+    
+            // Function to close the popup
+            function closePopup() {
+                confirmationMessage.classList.remove('visible');
+            }
+    
+            // Select all radio buttons inside rating circles
+            const ratingCircles = document.querySelectorAll('.rating-circle input[type="radio"]');
+            
+            // Loop through each radio button
+            ratingCircles.forEach(radio => {
+                // Add an event listener for when the radio button changes
+                radio.addEventListener('change', function () {
+                    // Find the rating circle container that contains the checked radio button
+                    const checkedCircle = this.closest('.rating-circle');
+                    
+                    // Find all rating circles in the same group
+                    const allCircles = checkedCircle.parentElement.querySelectorAll('.rating-circle');
+                    
+                    // Enable all rating circles
+                    allCircles.forEach(circle => {
+                        circle.classList.remove('disabled'); // Remove any disabled class
+                    });
+                    
+                    // Disable all rating circles except the one that was checked
+                    allCircles.forEach(circle => {
+                        if (circle !== checkedCircle) {
+                            circle.classList.add('disabled'); // Add disabled class
+                        }
+                    });
+                });
+            });
+    
+            // Initialize form state on page load (in case it's a returned form)
+            if (localStorage.getItem('formSubmitted')) {
+                disableForm();
+            }
         });
-
-        document.getElementById('submitFeedback').addEventListener('click', function () {
-            var ticketNumber = document.getElementById('ticketNumber').value;
-            alert('Submitting Feedback for Ticket Number: ' + ticketNumber);
-            // Reset input after submission if needed
-            document.getElementById('ticketNumber').value = '';
-        });
+         // Function to close the popup and hide the form
+    function closePopup() {
+        var popup = document.getElementById('confirmationMessage');
+        popup.classList.remove('visible'); // Hide the popup
+        document.body.classList.remove('overflow-hidden'); // Restore body scroll
+    }
     </script>
+    
+     
 
 </body>
-
 </html>
+
+
