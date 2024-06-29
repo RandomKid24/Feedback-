@@ -194,34 +194,64 @@
             cursor: default; /* Prevent cursor change */
         }
         .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-            z-index: 1000;
-        }
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    padding: 24px;
+    border-radius: 12px;
+    z-index: 1000;
+    max-width: 90%;
+    width: 400px;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0); /* Gradient background */
+    border: 1px solid #ccc; /* Light border */
+}
 
-        .popup-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #999;
-        }
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    backdrop-filter: blur(8px); /* Blurred background effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    padding: 24px;
+    border-radius: 12px;
+    z-index: 1000;
+    max-width: 90%;
+    width: 400px;
+    border: 1px solid #ccc; /* Light border */
+}
 
-        .popup-content {
-            padding: 10px;
-        }
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    transition: color 0.3s ease;
+}
 
-        .popup.visible {
-            display: block;
-        }
+.popup-close:hover {
+    color: #333;
+}
+
+.popup-content {
+    padding: 10px;
+    line-height: 1.6;
+    color: #333; /* Darker text color for contrast */
+}
+
+.popup.visible {
+    display: block;
+}
+
+
     </style>
 </head>
 <body class="bg-gray-100">
@@ -507,68 +537,94 @@
      <!-- JavaScript scriptrs-->
       <!-- JavaScript to handle gray-out behavior -->
 
- <script>
-       // Wait for the document to be fully loaded
-document.addEventListener('DOMContentLoaded', function () {
-    // Select the form and submit button
-    const form = document.querySelector('form');
-    const submitBtn = document.getElementById('submitBtn');
-    const confirmationMessage = document.getElementById('confirmationMessage');
-
-    // Add event listener for form submission
-    form.addEventListener('submit', function (event) {
-        // Prevent default form submission
-        event.preventDefault();
-
-        // You can perform form validation here if needed
-
-        // Display confirmation message
-        confirmationMessage.classList.add('visible');
-        confirmationMessage.scrollIntoView({ behavior: 'smooth' });
-
-        // Optional: Reset form fields after submission
-        form.reset();
-
-        // Hide confirmation message after 3 seconds
-        setTimeout(function () {
-            confirmationMessage.classList.remove('visible');
-        }, 3000); // 3000 milliseconds = 3 seconds
-    });
-
-    // Function to close the popup
-    function closePopup() {
-        confirmationMessage.classList.remove('visible');
-    }
-
-    // Select all radio buttons inside rating circles
-    const ratingCircles = document.querySelectorAll('.rating-circle input[type="radio"]');
+      <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select the form and submit button
+            const form = document.querySelector('form');
+            const submitBtn = document.getElementById('submitBtn');
+            const confirmationMessage = document.getElementById('confirmationMessage');
     
-    // Loop through each radio button
-    ratingCircles.forEach(radio => {
-        // Add an event listener for when the radio button changes
-        radio.addEventListener('change', function () {
-            // Find the rating circle container that contains the checked radio button
-            const checkedCircle = this.closest('.rating-circle');
-            
-            // Find all rating circles in the same group
-            const allCircles = checkedCircle.parentElement.querySelectorAll('.rating-circle');
-            
-            // Enable all rating circles
-            allCircles.forEach(circle => {
-                circle.classList.remove('disabled'); // Remove any disabled class
+            // Add event listener for form submission
+            form.addEventListener('submit', function (event) {
+                // Prevent default form submission
+                event.preventDefault();
+    
+                // You can perform form validation here if needed
+    
+                // Display confirmation message
+                confirmationMessage.classList.add('visible');
+                confirmationMessage.scrollIntoView({ behavior: 'smooth' });
+    
+                // Optional: Reset form fields after submission
+                form.reset();
+    
+                // Disable form fields to prevent further editing
+                disableForm();
+    
+                // Hide confirmation message after 3 seconds
+                setTimeout(function () {
+                    confirmationMessage.classList.remove('visible');
+                }, 3000); // 3000 milliseconds = 3 seconds
             });
-            
-            // Disable all rating circles except the one that was checked
-            allCircles.forEach(circle => {
-                if (circle !== checkedCircle) {
-                    circle.classList.add('disabled'); // Add disabled class
+    
+            // Function to disable form fields after submission
+            function disableForm() {
+                // Disable all form elements
+                const formElements = form.elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    formElements[i].disabled = true;
                 }
+    
+                // Disable submit button separately (in case it's not in form.elements)
+                submitBtn.disabled = true;
+            }
+    
+            // Function to close the popup
+            function closePopup() {
+                confirmationMessage.classList.remove('visible');
+            }
+    
+            // Select all radio buttons inside rating circles
+            const ratingCircles = document.querySelectorAll('.rating-circle input[type="radio"]');
+            
+            // Loop through each radio button
+            ratingCircles.forEach(radio => {
+                // Add an event listener for when the radio button changes
+                radio.addEventListener('change', function () {
+                    // Find the rating circle container that contains the checked radio button
+                    const checkedCircle = this.closest('.rating-circle');
+                    
+                    // Find all rating circles in the same group
+                    const allCircles = checkedCircle.parentElement.querySelectorAll('.rating-circle');
+                    
+                    // Enable all rating circles
+                    allCircles.forEach(circle => {
+                        circle.classList.remove('disabled'); // Remove any disabled class
+                    });
+                    
+                    // Disable all rating circles except the one that was checked
+                    allCircles.forEach(circle => {
+                        if (circle !== checkedCircle) {
+                            circle.classList.add('disabled'); // Add disabled class
+                        }
+                    });
+                });
             });
+    
+            // Initialize form state on page load (in case it's a returned form)
+            if (localStorage.getItem('formSubmitted')) {
+                disableForm();
+            }
         });
-
-    });
-});
+         // Function to close the popup and hide the form
+    function closePopup() {
+        var popup = document.getElementById('confirmationMessage');
+        popup.classList.remove('visible'); // Hide the popup
+        document.body.classList.remove('overflow-hidden'); // Restore body scroll
+    }
     </script>
+    
      
 
 </body>
