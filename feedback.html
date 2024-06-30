@@ -251,6 +251,25 @@
     display: block;
 }
 
+.highlight-text {
+        font-weight: bold;
+        font-size: 0.9em;
+        color: #17324d; /* Text color */
+        text-align: center;
+        display: inline-block;
+        font-family: 'Poppins', sans-serif;
+        
+    }
+
+    .highlight-link {
+        color: #2563eb; /* Link color */
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    .highlight-link:hover {
+        color: #ff6347; /* Hover color */
+    }
 
     </style>
 </head>
@@ -505,6 +524,10 @@
             <div class="form-group">
                 <button type="submit">Submit Feedback</button>
             </div>
+          <!-- Text Below Submit Button -->
+<div class="form-group mt-4">
+    <p class="highlight-text">Want to take your complaint further? <a href="https://www.example.com" target="_blank" class="highlight-link">Click Here</a></p>
+</div>
             <!-- Popup Confirmation Message -->
             <div class="popup" id="confirmationMessage">
                 <span class="popup-close" onclick="closePopup()">&times;</span>
@@ -629,8 +652,5 @@
 
 </body>
 </html>
-
-
-
 
 
